@@ -7,7 +7,7 @@
 //
 
 #import "NewsController.h"
-#define supportedCountries @"ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za"
+#define SUPPORTED_COUNTRIES @"ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za"
 
 @interface NewsController () {
     NSArray *countryData;
@@ -199,7 +199,7 @@
 
 - (void) loadPickerData {
 //    NSString *supportedCountries = @"ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za";
-    NSArray *countryCodes = [supportedCountries componentsSeparatedByString:@" "];
+    NSArray *countryCodes = [SUPPORTED_COUNTRIES componentsSeparatedByString:@" "];
     
     NSMutableArray *countryNames = [[NSMutableArray alloc]init];
     NSLocale *local = [NSLocale currentLocale];
@@ -286,7 +286,7 @@
 }
 
 - (void) finishBtnClick {
-    NSString *selectedCountry = [[supportedCountries componentsSeparatedByString:@" "] objectAtIndex:[self.pickerView selectedRowInComponent:0]];
+    NSString *selectedCountry = [[SUPPORTED_COUNTRIES componentsSeparatedByString:@" "] objectAtIndex:[self.pickerView selectedRowInComponent:0]];
 
     [self.nh.parmDic setValue:selectedCountry forKey:@"country"];
     [self.nh getNewsDataFromNet];
