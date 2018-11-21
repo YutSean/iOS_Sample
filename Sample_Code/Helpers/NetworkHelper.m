@@ -70,6 +70,7 @@ static id _instance;
     if (_newsData != nil) {
         _newsData = nil;
     }
+    //  construct the request URL
     NSMutableString *url = [[NSMutableString alloc] init];
     [url appendString:NewsServer];
     for (NSString *key in self.parmDic) {

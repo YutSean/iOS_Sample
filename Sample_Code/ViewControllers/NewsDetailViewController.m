@@ -18,10 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-//    self.webView = [[WKWebView alloc] initWithFrame:];
-//
-//    [self.view addSubview:self.webView];
     [self deleteWebCache];
     
     NSURL *url = [NSURL URLWithString:[[self.newsData valueForKey:@"url"]
@@ -32,29 +28,6 @@
     self.webView.navigationDelegate = self;
 
     [self.webView loadRequest:request];
-    
-//    WKWebViewConfiguration *conf = [WKWebViewConfiguration new];
-//    conf.ignoresViewportScaleLimits = NO;
-//    conf.processPool=[[WKProcessPool alloc]init];
-//    conf.userContentController=[[WKUserContentController alloc]init];
-//
-//
-//    WKWebView *webView = [[WKWebView alloc]initWithFrame:self.view.frame configuration:conf];
-//
-//    [webView setBackgroundColor:[UIColor yellowColor]];
-//
-//    NSURL *url = [NSURL URLWithString:[self.newsData valueForKey:@"url"]];
-//    //NSURL *url = [NSURL URLWithString:@"www.google.de"];
-//    NSMutableURLRequest *request =[NSMutableURLRequest requestWithURL:url];
-//
-//    [webView loadRequest:request];
-//    [webView reload];
-//    [self.view addSubview:webView];
-//    if ([self isBlankView:webView]) {
-//        webView = nil;
-//        [self rebuildWebview];
-//    }
-    
 }
 
 - (void)deleteWebCache {
@@ -94,7 +67,7 @@
     
     WKWebView *webView = [[WKWebView alloc]initWithFrame:self.view.frame configuration:conf];
     
-    [webView setBackgroundColor:[UIColor yellowColor]];
+    [webView setBackgroundColor:[UIColor whiteColor]];
     
     NSURL *url = [NSURL URLWithString:[self.newsData valueForKey:@"url"]];
     //NSURL *url = [NSURL URLWithString:@"www.google.de"];

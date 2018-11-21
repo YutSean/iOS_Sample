@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		144724B921A58CDD00C89F52 /* StringHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 144724B821A58CDD00C89F52 /* StringHelper.m */; };
 		14872A6A21A427CB00DCA45C /* newsSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14872A6921A427CB00DCA45C /* newsSearchController.m */; };
 		14C66E7B219B034E00E2F508 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 14C66E7A219B034E00E2F508 /* AppDelegate.m */; };
 		14C66E81219B034E00E2F508 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14C66E7F219B034E00E2F508 /* Main.storyboard */; };
@@ -26,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		144724B721A58CDD00C89F52 /* StringHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StringHelper.h; sourceTree = "<group>"; };
+		144724B821A58CDD00C89F52 /* StringHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StringHelper.m; sourceTree = "<group>"; };
 		14872A6821A427CB00DCA45C /* newsSearchController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = newsSearchController.h; sourceTree = "<group>"; };
 		14872A6921A427CB00DCA45C /* newsSearchController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = newsSearchController.m; sourceTree = "<group>"; };
 		14C66E76219B034E00E2F508 /* Sample_Code.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sample_Code.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +120,8 @@
 				14FA8C4921A1C60C00F7FD00 /* imageHelper.m */,
 				14FA8C4B21A1EEDB00F7FD00 /* fileHelper.h */,
 				14FA8C4C21A1EEDB00F7FD00 /* fileHelper.m */,
+				144724B721A58CDD00C89F52 /* StringHelper.h */,
+				144724B821A58CDD00C89F52 /* StringHelper.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -225,6 +230,7 @@
 				14872A6A21A427CB00DCA45C /* newsSearchController.m in Sources */,
 				14C66EB0219D77DE00E2F508 /* NewsDetailViewController.m in Sources */,
 				14C66E97219B086000E2F508 /* NewsController.m in Sources */,
+				144724B921A58CDD00C89F52 /* StringHelper.m in Sources */,
 				14FA8C4A21A1C60C00F7FD00 /* imageHelper.m in Sources */,
 				14FA8C4D21A1EEDB00F7FD00 /* fileHelper.m in Sources */,
 				14C66E89219B034F00E2F508 /* main.m in Sources */,

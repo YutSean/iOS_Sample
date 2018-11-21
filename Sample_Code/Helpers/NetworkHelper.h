@@ -22,7 +22,6 @@
 - (void) getNewsDataFromNetWithKeyWord: (NSString *)keyword;
 - (void) resetParameters;
 - (void) getJsonResponse:(NSString *)urlStr success:(void (^)(NSDictionary *responseDict))success failure:(void(^)(NSError* error))failure;
-
 - (void) getImageData:(NSString *)imgUrl success:(void (^)(NSData *responseData))success failure:(void(^)(NSError* error))failure;
 
 + (instancetype)getInstance;

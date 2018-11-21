@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "fileHelper.h"
 #import "NetworkHelper.h"
+#import "StringHelper.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

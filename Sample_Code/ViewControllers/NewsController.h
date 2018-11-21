@@ -16,14 +16,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NewsController : UIViewController <UITableViewDelegate, UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate>
+@interface NewsController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *tableDataArray;
 @property (nonatomic, strong) NSArray *newsList;
 @property (strong, nonatomic) NetworkHelper *nh;
-@property (strong, nonatomic) UIPickerView *pickerView;
-@property (strong, nonatomic) UIView *bgView;
 @property (strong, nonatomic) tableHeadController *header;
 
 @end

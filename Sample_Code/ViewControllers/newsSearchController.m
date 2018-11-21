@@ -21,6 +21,8 @@
     NSString *text = self.searchBar.text;
     if (![text isEqual:@""]) {
         self.nh = [NetworkHelper getInstance];
+        [StringHelper removeWhiteSpaceAndNewline:text];
+        [StringHelper removeSpecialCharacters:text];
         [self.nh getNewsDataFromNetWithKeyWord:text];
     }
 }

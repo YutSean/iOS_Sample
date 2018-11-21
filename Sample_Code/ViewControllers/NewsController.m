@@ -7,17 +7,11 @@
 //
 
 #import "NewsController.h"
-#define SUPPORTED_COUNTRIES @"ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za"
 
-@interface NewsController () {
-    NSArray *countryData;
-}
+@interface NewsController () 
 
-- (void) addPickerView;
 - (void) handleRefresh;
 - (void) setHeaderView;
-- (void) selectCategory: (id) sender;
-- (void) loadPickerData;
 
 @end
 
@@ -42,28 +36,18 @@
     //  register newscell
     UINib *nib = [UINib nibWithNibName:@"newsCell" bundle:[NSBundle mainBundle]];
     [self.tableView registerNib:nib forCellReuseIdentifier:@"newsCell"];
-    [self loadPickerData];
+
     [self setHeaderView];
     [self.nh getNewsDataFromNet];
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    //self.tableView.estimatedRowHeight = [UIScreen mainScreen].bounds.size.height / 3.0;
     
     self.navigationItem.title = @"Top hotline news";
     self.definesPresentationContext = YES;
     self.navigationItem.searchController = [[newsSearchController alloc]initWithSearchResultsController:nil];
     self.navigationItem.hidesSearchBarWhenScrolling = YES;
     [self.navigationItem.searchController.searchBar setShowsCancelButton:NO animated:YES];
+    [self.navigationItem.searchController.searchBar setPlaceholder:@"News with keywords"];
     self.navigationItem.searchController.searchBar.delegate = self.navigationItem.searchController;
-    
-//    self.navigationItem.searchController = [[UISearchController alloc]initWithSearchResultsController:self];
-//    self.navigationItem.searchController.searchResultsUpdater = self;
-//    self.navigationItem.searchController.delegate = self;
-//    self.navigationItem.searchController.searchBar.delegate = self;
-//    self.navigationItem.searchController.hidesNavigationBarDuringPresentation = YES;
-//    self.navigationItem.titleView = self.navigationItem.searchController.searchBar;
-//    UISearchBar *searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 60, 300)];
-//    self.navigationItem.titleView = searchBar;
-    
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc]init];
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"loading..." attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14], NSForegroundColorAttributeName:[UIColor grayColor]}];
@@ -152,156 +136,11 @@
     NSLocale *currentLocale = [NSLocale currentLocale];
     NSString *countryCode = [currentLocale objectForKey:NSLocaleCountryCode];
     [self.nh.parmDic setValue:[countryCode lowercaseString] forKey:@"country"];
-    
-    CGRect screen = [UIScreen mainScreen].bounds;
-    
-    self.header = [[tableHeadController alloc] initWithNibName:@"header" bundle:nil];
 
-    self.header.view.frame = CGRectMake(0, 0, screen.size.width, screen.size.height / 8);
-    
-    [self.header.newsCategory addTarget:self action:@selector(selectCategory:) forControlEvents:UIControlEventValueChanged];
-    [self.header.countrySelect addTarget:self action:@selector(selectCountry:) forControlEvents:UIControlEventTouchUpInside];
-    
+    self.header = [[tableHeadController alloc] initWithNibName:@"header" bundle:[NSBundle mainBundle]];
+
     [self.tableView setTableHeaderView:self.header.view];
 }
-
-//  action of category selection
-- (void) selectCategory: (id)sender {
-    UISegmentedControl* control = (UISegmentedControl *)sender;
-    NSInteger selected = [control selectedSegmentIndex];
-    
-    [self.nh.parmDic setValue:[control titleForSegmentAtIndex:selected] forKey:@"category"];
-    [self.nh getNewsDataFromNet];
-}
-
-//  action of click country selection button
-- (void) selectCountry: (id)sender {
-    UIButton *btn = (UIButton *)sender;
-    
-    [self addPickerView];
-    btn.titleLabel.text = [self.nh.parmDic valueForKey:@"country"];
-}
-
-- (void) addPickerView {
-    CGRect screen = [UIScreen mainScreen].bounds;
-    if (self.pickerView == nil) {
-        self.pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0,screen.size.height-49, screen.size.width, screen.size.height)];
-        
-        self.pickerView.delegate = self;
-        self.pickerView.dataSource = self;
-        self.pickerView.showsSelectionIndicator = YES;
-    }
-    self.pickerView.delegate = self;
-    self.pickerView.dataSource = self;
-    [self.view addSubview:self.pickerView];
-    [self showPickerView];
-}
-
-- (void) loadPickerData {
-//    NSString *supportedCountries = @"ae ar at au be bg br ca ch cn co cu cz de eg fr gb gr hk hu id ie il in it jp kr lt lv ma mx my ng nl no nz ph pl pt ro rs ru sa se sg si sk th tr tw ua us ve za";
-    NSArray *countryCodes = [SUPPORTED_COUNTRIES componentsSeparatedByString:@" "];
-    
-    NSMutableArray *countryNames = [[NSMutableArray alloc]init];
-    NSLocale *local = [NSLocale currentLocale];
-    for (NSString *countryCode in countryCodes) {
-        NSString *displayNameString = [local displayNameForKey:NSLocaleCountryCode value:countryCode];
-        [countryNames addObject:displayNameString];
-    }
-    countryData = [countryNames copy];
-}
-
-- (NSInteger)numberOfComponentsInPickerView:(nonnull UIPickerView *)pickerView { 
-    return 1;
-}
-
-- (NSInteger)pickerView:(nonnull UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component { 
-    return [countryData count];
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
-    return countryData[row];
-}
-
-//  show pickerview with animation
-- (void)showPickerView{
-    
-    CGRect screen = [UIScreen mainScreen].bounds;
-
-    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
-
-    _bgView = [[UIView alloc]init];
-    _bgView.frame = window.bounds;
-
-    _bgView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.4];
-
-    [window addSubview:_bgView];
-    
-    // add toolbar for pickerview
-    NSMutableArray *barItems = [NSMutableArray array];
-    UIBarButtonItem *cancelBtn = [[UIBarButtonItem alloc] initWithTitle:@"\tCancel" style:UIBarButtonItemStylePlain target:self action:@selector(toolBarCanelClick)];
-    [barItems addObject:cancelBtn];
-
-    UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    [barItems addObject:flexSpace];
-    
-    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithTitle:@"Confirm\t" style:UIBarButtonItemStylePlain target:self action:@selector(finishBtnClick)];
-    
-    [barItems addObject:doneBtn];
-    UIToolbar *pickerToolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, screen.size.height / 2 - 60, self.pickerView.frame.size.width, 60)];
-    
-    [pickerToolBar layoutIfNeeded];
-    pickerToolBar.items = barItems;
-    
-    [self.bgView addSubview:pickerToolBar];
-
-    _pickerView.backgroundColor = [UIColor whiteColor];
-    _pickerView.alpha = 0.9;
-    [window addSubview:_pickerView];
-
-    [UIView animateWithDuration:0.3 animations:^{
-        self->_pickerView.frame = CGRectMake(0, screen.size.height / 2, screen.size.width, screen.size.height / 2);
-    }];
-}
-
-- (void) toolBarCanelClick {
-    [UIView animateWithDuration:0.3 animations:^(void) {
-        
-        self.pickerView.frame = CGRectMake(0, self.pickerView.bounds.size.height, self.pickerView.bounds.size.width, self.pickerView.frame.size.height);
-    } completion:^(BOOL finished){
-        if (finished) {
-            [UIView animateWithDuration:0.3 animations:^{
-                
-                self.bgView.frame = CGRectMake(0, self.bgView.bounds.size.height, self.bgView.bounds.size.width, self.pickerView.frame.size.height);
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [self.bgView removeFromSuperview];
-                    [self.pickerView removeFromSuperview];
-                }
-            }];
-        }
-    }];
-
-    
-}
-
-- (void) finishBtnClick {
-    NSString *selectedCountry = [[SUPPORTED_COUNTRIES componentsSeparatedByString:@" "] objectAtIndex:[self.pickerView selectedRowInComponent:0]];
-
-    [self.nh.parmDic setValue:selectedCountry forKey:@"country"];
-    [self.nh getNewsDataFromNet];
-    self.header.countrySelect.titleLabel.text = [countryData objectAtIndex:[self.pickerView selectedRowInComponent:0]];
-//    for (UIView *next = self.tableView.tableHeaderView; next; next = next.superview) {
-//        UIResponder *nextResponder = [next nextResponder];
-//        if ([nextResponder isKindOfClass:[tableHeadController class]]) {
-//            tableHeadController *header = (tableHeadController *)nextResponder;
-//            header.countrySelect.titleLabel.text =[self.nh.parmDic valueForKey:@"country"];
-//            break;
-//        }
-//    }
-    [self toolBarCanelClick];
-}
-
 
 
 @end
